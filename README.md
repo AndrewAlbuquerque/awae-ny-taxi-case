@@ -1,7 +1,3 @@
-Aqui está o conteúdo técnico unificado e completo para a página principal do seu repositório (**`README.md`**), estruturado em blocos de código limpos e prontos para cópia direta.
-
----
-
 # NYC Taxi Medallion Analytics - Data Lakehouse
 
 An end-to-end, ultra-low-cost Data Lakehouse infrastructure designed to ingest, process, clean, and analyze millions of trip records from New York City's Yellow and Green Taxi fleets.
@@ -75,7 +71,7 @@ The project strictly implements the **Medallion Architecture** combined with a c
 
 * **Landing Zone**: Houses immutable raw data exactly as requested from the source, guaranteeing a zero-loss entry baseline.
 * **Bronze Layer**: Implements a structured schema baseline using the Delta Lake format, adding critical technical ingestion metadata (`source_file`).
-* **Silver Layer**: Handles entity consolidation without filtering lines (*Full Retention*). This layer splits metadata into **3 standard Parquet dimension tables** (`dim_tpep_provider`, `dim_ratecode`, `dim_payment_type`) directly derived from official documentation.
+* **Silver Layer**: Handles entity consolidation without filtering records (*Full Retention*). This layer splits metadata into **3 standard Parquet dimension tables** (`dim_tpep_provider`, `dim_ratecode`, `dim_payment_type`) directly derived from official documentation mapping.
 * **Gold Layer**: Represents the business-ready environment. It filters out anomalies (`total_amount > 0` and `passenger_count > 0`), performs lookups against the dimension tables, drops technical numeric keys, and enriches the data with isolated time components (`pickup_year`, `pickup_month`, `pickup_day`, `pickup_hour`).
 
 ---
@@ -125,13 +121,13 @@ The curated Gold layer fact table is optimized to seamlessly answer key operatio
 
 The pipeline resolves this under three necessary management horizons:
 
-1. **Response 1 (Série Temporal)**: A média exata por bloco específico de calendário (Ano/Mês).
-2. **Response 2 (Análise Sazonal)**: A média de valor agrupada estritamente pelo número do mês, independente do ano, isolando a sazonalidade histórica.
-3. **Response 3 (Média Global)**: Uma linha de base macro consolidada (único valor) indicando o preço médio histórico de uma corrida da frota Yellow.
+1. **Response 1 (Time Series)**: The exact average value broken down per specific calendar blocks (Year/Month).
+2. **Response 2 (Seasonal Analysis)**: The average value grouped strictly by the numerical month digit, independent of the calendar year, isolating historical seasonality parameters.
+3. **Response 3 (Global Average)**: A macro consolidated baseline (single scalar value) indicating the historical average trip price across the entire Yellow fleet.
 
 ### Question 3: What is the average number of passengers per hour of the day for trips taken in May considering the entire fleet?
 
-Generates an hourly distribution curve (0 to 23 hours) mapping the load factor profile to pinpoint traffic peak performance blocks in May.
+Generates an hourly distribution curve (0 to 23 hours) mapping the vehicle load factor profile to pinpoint traffic peak performance blocks throughout the month of May.
 
 ---
 
